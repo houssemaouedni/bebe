@@ -1,5 +1,5 @@
 // Configuration des variables d'environnement pour le frontend
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_URL = import.meta.env.VITE_API_URL || 'https://salima.digitaletech.fr';
 
 // Fonction pour récupérer tous les biberons
 export const fetchBottles = async () => {

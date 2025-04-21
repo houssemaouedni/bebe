@@ -2,31 +2,48 @@ version: '3.8'
 
 services:
   backend:
-    build:
-      context: ./backend
+    image: ghcr.io/houssemaouedni/bebe/backend:sha-e627362
     ports:
-      - "3000:3000"
-    volumes:
-      - ./backend:/usr/src/app
+      - "3020:3000"
+    # Commenté pour test:
+    # volumes:
+    #   - ./backend:/usr/src/app
     environment:
       - NODE_ENV=development
       - DB_HOST=host.docker.internal
       - DB_USER=root
-      - DB_PASSWORD=11059586
+      - DB_PASSWORD=Sp(>x2H<qAUygCZw
       - DB_NAME=baby_tracker
       - PORT=3000
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      - bebe-network
 
   frontend:
-    build:
-      context: ./frontend
+    image: ghcr.io/houssemaouedni/bebe/frontend:sha-e627362
     ports:
       - "5173:5173"
     volumes:
       - ./frontend:/usr/src/app
     environment:
       - NODE_ENV=development
-      - VITE_API_URL=http://backend:3000
+      - VITE_API_URL=http://backend:3020
     depends_on:
       - backend
+    networks:
+      - bebe-network
+
+networks:
+  bebe-network:
+    driver: bridge
+
+# Pour les identifiants GitHub, vous avez plusieurs options:
+# 1. Authentification via docker login (recommandée): 
+#    Exécuter dans un terminal: docker login ghcr.io -u VOTRE_NOM_UTILISATEUR -p VOTRE_TOKEN_GITHUB
+# 
+# 2. En utilisant un fichier .env (à créer) pour stocker vos identifiants:
+#    GITHUB_USERNAME=votre_nom_utilisateur
+#    GITHUB_TOKEN=votre_personal_access_token
+#
+# 3. En utilisant un fichier docker-compose.override.yml pour les informations sensibles
